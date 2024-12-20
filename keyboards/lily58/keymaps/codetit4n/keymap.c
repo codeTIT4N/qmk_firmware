@@ -1,5 +1,13 @@
 #include QMK_KEYBOARD_H
 
+#define ANIM_INVERT false
+#define ANIM_RENDER_WPM true
+#define FAST_TYPE_WPM 45 //Switch to fast animation when over words per minute
+
+#ifdef OLED_ENABLE
+#include "demon.c"
+#endif
+
 enum layer_number {
   _QWERTY = 0,
   _LOWER,
@@ -69,13 +77,15 @@ const char *read_keylogs(void);
 
 bool oled_task_user(void) {
   if (is_keyboard_master()) {
-    // If you want to change the display of OLED, you need to change here
-    oled_write_ln(read_layer_state(), false);
-    oled_write_ln(read_keylog(), false);
-    oled_write_ln(read_keylogs(), false);
-    //oled_write_ln(read_mode_icon(keymap_config.swap_lalt_lgui), false);
-    //oled_write_ln(read_host_led_state(), false);
-    //oled_write_ln(read_timelog(), false);
+    oled_render_anim();
+    //// If you want to change the display of OLED, you need to change here
+    //oled_write_ln(read_layer_state(), false);
+    //oled_write_ln(read_keylog(), false);
+    //oled_write_ln(read_keylogs(), false);
+    ////oled_write_ln(read_mode_icon(keymap_config.swap_lalt_lgui), false);
+    ////oled_write_ln(read_host_led_state(), false);
+    ////oled_write_ln(read_timelog(), false);
+    //oled_write_ln(read_layer_state(), false);
   } else {
     oled_write(read_logo(), false);
   }
